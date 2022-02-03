@@ -19,7 +19,6 @@
     "48": "assets/icon-48x48.png"
   },
   "permissions": [
-    "tabs",
     "*://ficbook.net/*"
   ],
   "web_accessible_resources": [
