@@ -21,3 +21,7 @@ export function getFicFiltersContainer() {
 export function getAdvancedSearchLink() {
     return getFicFiltersContainer().querySelector('div.small');
 }
+
+export function isUserLoggedIn() {
+    return !document.querySelector('#jsLogin');
+}

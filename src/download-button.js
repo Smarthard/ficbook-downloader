@@ -9,6 +9,7 @@ import {
     getAuthorName,
     getFicFiltersContainer,
     getTotalFics,
+    isUserLoggedIn,
 } from './helpers/dom-parsers';
 
 function initDownloadFicButton(onClickFunc) {
@@ -31,6 +32,8 @@ function main() {
         const authorName = getAuthorName();
         const totalFics = getTotalFics();
         const advancedFiltersDiv = getAdvancedSearchLink();
+        const isLoggedIn = isUserLoggedIn();
+
         const onDownloadClick = async () => {
             let timeoutMs = 0;
             let ficsDownloaded = 0;
@@ -76,8 +79,13 @@ function main() {
 
         const downloadFicsButton = initDownloadFicButton(onDownloadClick);
 
-        if (!totalFics) {
+        if (!totalFics || !isLoggedIn) {
             downloadFicsButton.disabled = true;
+        }
+
+        if (!isLoggedIn) {
+            // TODO: should be localized
+            downloadFicsButton.title = 'Необходимо войти в аккаунт для скачивания';
         }
 
         filtersContainerForm.insertBefore(downloadFicsButton, advancedFiltersDiv);
