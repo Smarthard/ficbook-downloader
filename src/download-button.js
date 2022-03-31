@@ -64,7 +64,7 @@ function main() {
                             reject(e);
                         }
                     }, timeoutMs);
-                    timeoutMs += 2000;
+                    timeoutMs += 5000;
                 });
 
                 jobs.push(job);
