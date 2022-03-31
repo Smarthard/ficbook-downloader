@@ -34,6 +34,9 @@ module.exports = {
                 {
                     from: 'manifest.json',
                 },
+                {
+                    from: 'src/author-works-page.css',
+                },
             ],
         }),
         new ESLintPlugin({

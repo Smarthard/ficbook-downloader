@@ -5,6 +5,9 @@
       "js": [
         "main.js"
       ],
+      "css": [
+        "author-works-page.css"
+      ],
       "matches": [
         "*://ficbook.net/authors/*"
       ],
