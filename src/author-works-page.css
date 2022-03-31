@@ -1,3 +1,33 @@
-.profile-container .form-control {
-    max-width: 24%;
+@media (min-width: 1000px) {
+    .profile-container .form-control {
+        max-width: 24%;
+    }
+}
+
+@media (max-width: 999px) {
+    .profile-container .form-control {
+        max-width: 19%;
+    }
+}
+
+.download-fics-dropdown {
+    display: inline-block;
+}
+
+.dropdown-menu {
+    min-width: 105px;
+}
+
+.download-fics-dropdown__item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.download-fics-dropdown__item:hover {
+    background-color: white;
+    color: black;
+}
+
+.download-fics-dropdown__item:not(:last-child) {
+    border-bottom: 1px solid gray;
 }

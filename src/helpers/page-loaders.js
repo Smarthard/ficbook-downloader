@@ -27,14 +27,30 @@ export function getFicDownloadPageBydId(ficId) {
         });
 }
 
-export async function getFicDataById(ficId, ficName) {
+export async function getFicDataById(ficId, ficName, fileExt) {
     const ficDownloadPage = await getFicDownloadPageBydId(ficId);
     const dom = new DOMParser();
     const body = new FormData();
     const html = dom.parseFromString(ficDownloadPage, 'text/html');
     const [ txt, epub, pdf, fb2 ] = html.querySelectorAll('.fanfic-download-option');
-    const csrfTokenInput = fb2.querySelector('input[name="tokenn"]');
+    let selectedExt;
 
+    switch (fileExt) {
+        case 'txt':
+            selectedExt = txt;
+            break;
+        case 'epub':
+            selectedExt = epub;
+            break;
+        case 'pdf':
+            selectedExt = pdf;
+            break;
+        default:
+            selectedExt = fb2;
+            break;
+    }
+
+    const csrfTokenInput = selectedExt.querySelector('input[name="tokenn"]');
     ficId = Number(ficId);
 
     if (!csrfTokenInput) {
@@ -53,7 +69,7 @@ export async function getFicDataById(ficId, ficName) {
     body.append('tokenn', csrfTokenInput.value);
     body.append(hashedFieldName, hashedFieldValue);
 
-    return fetch('https://ficbook.net/fanfic_download/fb2', { method: 'POST', body })
+    return fetch(`https://ficbook.net/fanfic_download/${fileExt}`, { method: 'POST', body })
         .then((res) => res.arrayBuffer())
         .catch((err) => err);
 }

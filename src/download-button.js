@@ -12,15 +12,39 @@ import {
     isUserLoggedIn,
 } from './helpers/dom-parsers';
 
-function initDownloadFicButton(onClickFunc) {
-   const downloadFicsButton = document.createElement('button');
+function initDownloadFicButton(onClickFuncGenerator) {
+   const downloadFicsDropdownContainer = document.createElement('div');
+   const toggleButton = document.createElement('button');
+   const toggleButtonId = 'toggleButton';
+   const downloadMenuContainer = document.createElement('ul');
+   const downloadTypes = [ 'txt', 'epub', 'pdf', 'fb2' ];
+   const menuButtons = downloadTypes.map(() => document.createElement('li'));
 
-   downloadFicsButton.classList.add('btn', 'btn-default');
-   downloadFicsButton.type = 'button'; // prevent search form from submitting
-   downloadFicsButton.textContent = 'Скачать'; // TODO: should be localized
-   downloadFicsButton.onclick = onClickFunc;
+   for (const [ index, menuBtn ] of menuButtons.entries()) {
+       const fileExt = downloadTypes[index];
+       menuBtn.textContent = `...в ${fileExt}`;
+       menuBtn.classList.add('download-fics-dropdown__item');
+       menuBtn.onclick = onClickFuncGenerator(fileExt);
 
-   return downloadFicsButton;
+       downloadMenuContainer.appendChild(menuBtn);
+   }
+
+   downloadFicsDropdownContainer.classList.add('dropdown', 'download-fics-dropdown');
+
+   downloadMenuContainer.classList.add('dropdown-menu', 'list-unstyled');
+   downloadMenuContainer.setAttribute('aria-labelledby', toggleButtonId);
+
+   toggleButton.type = 'button';
+   toggleButton.id = toggleButtonId;
+   toggleButton.classList.add('btn', 'btn-default');
+   toggleButton.setAttribute('data-toggle', 'dropdown');
+   toggleButton.setAttribute('aria-expanded', 'false');
+   toggleButton.innerHTML = 'Скачать <span class="caret"></span>'; // TODO: should be localized
+
+   downloadFicsDropdownContainer.appendChild(toggleButton);
+   downloadFicsDropdownContainer.appendChild(downloadMenuContainer);
+
+   return downloadFicsDropdownContainer;
 }
 
 function main() {
@@ -34,7 +58,7 @@ function main() {
         const advancedFiltersDiv = getAdvancedSearchLink();
         const isLoggedIn = isUserLoggedIn();
 
-        const onDownloadClick = async () => {
+        const onDownloadClickGenerator = (fileExt) => async () => {
             let timeoutMs = 0;
             let ficsDownloaded = 0;
             const jobs = [];
@@ -51,8 +75,7 @@ function main() {
                 const job = new Promise((resolve, reject) => {
                     setTimeout(async () => {
                         try {
-                            const fileExt = 'fb2';
-                            const blob = await getFicDataById(ficId, ficName);
+                            const blob = await getFicDataById(ficId, ficName, fileExt);
                             const fileName = `[${authorName}] ${trimDots(ficName)}.${fileExt}`;
 
                             zip.file(fileName, blob);
@@ -77,7 +100,7 @@ function main() {
                 .catch((err) => console.error(err));
         };
 
-        const downloadFicsButton = initDownloadFicButton(onDownloadClick);
+        const downloadFicsButton = initDownloadFicButton(onDownloadClickGenerator);
 
         if (!totalFics || !isLoggedIn) {
             downloadFicsButton.disabled = true;
