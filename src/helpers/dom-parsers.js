@@ -5,11 +5,11 @@ export function parseFicList(html, parser = new DOMParser()) {
 }
 
 export function getAuthorName() {
-    return document.querySelector('#main h1').textContent;
+    return document.querySelector('.user-name').textContent;
 }
 
 export function getTotalFics() {
-    const totalFicsCounterSpan = document.querySelector('#profile-tabs .active .counter');
+    const totalFicsCounterSpan = document.querySelector('.sidebar-nav .active .counter');
 
     return totalFicsCounterSpan ? totalFicsCounterSpan.textContent : 0;
 }
