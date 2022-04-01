@@ -22,10 +22,34 @@
 
 .fanfic-filter .form-inline {
     display: grid;
-    grid-template-areas:
+    gap: 5px;
+}
+
+@media (min-width: 300px) {
+    .fanfic-filter .form-inline {
+        grid-template-areas:
+            "a a" /* fandom dropdown select */
+            "b b" /* direction dropdown select */
+            "c c" /* sort dropdown select */
+            "d e" /* show button & download button */
+            "f f" /* advanced search filters */;
+    }
+
+    .fanfic-filter .btn[type="submit"] {
+        margin: 10px auto;
+    }
+
+    .fanfic-filter .fandom-id {
+        max-width: unset;
+    }
+}
+
+@media (min-width: 1200px) {
+    .fanfic-filter .form-inline {
+        grid-template-areas:
             "a a b b c c d e"
             "f f f f f f f f";
-    gap: 5px;
+    }
 }
 
 .fanfic-filter [name="fandom_id"] {
