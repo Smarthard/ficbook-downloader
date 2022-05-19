@@ -63,7 +63,7 @@ export async function getFicDataById(ficId, ficName, fileExt) {
         .filter((tokenCharAsOct) => !isNaN(tokenCharAsOct))
         .reduce((octalDigit, acc) => octalDigit + acc);
     const hashedFieldName = hash + ficId;
-    const hashedFieldValue = ficId ^ hash + 1;
+    const hashedFieldValue = ficId ^ hash + 5;
 
     body.append('fanfic_id', ficId);
     body.append('tokenn', csrfTokenInput.value);
