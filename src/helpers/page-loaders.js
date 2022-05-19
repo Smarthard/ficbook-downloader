@@ -60,8 +60,8 @@ export async function getFicDataById(ficId, ficName, fileExt) {
     // the hashing algorithm is reverse-engineered from ficbook sources
     const hash = [ ...csrfTokenInput.value ]
         .map((tokenChar) => parseInt(tokenChar, 8))
-        .filter((tokenCharAsHex) => !isNaN(tokenCharAsHex))
-        .reduce((hex, acc) => hex + acc);
+        .filter((tokenCharAsOct) => !isNaN(tokenCharAsOct))
+        .reduce((octalDigit, acc) => octalDigit + acc);
     const hashedFieldName = hash + ficId;
     const hashedFieldValue = ficId ^ hash + 1;
 
